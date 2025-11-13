@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <!-- Formatos de las películas -->
+    <string-array name="formats">
+        <item>DVD</item>
+        <item>Blu-Ray</item>
+        <item>Digital</item>
+    </string-array>
+
+    <!-- Géneros de las películas -->
+    <string-array name="genres">
+        <item>Action</item>
+        <item>Comedy</item>
+        <item>Drama</item>
+        <item>Sci-Fi</item>
+        <item>Horror</item>
+    </string-array>
+</resources>
