@@ -3,7 +3,7 @@ package es.pmdm.filmoteca;
 public class Film {
 
     public final static int FORMAT_DVD = 0;
-    public final static int FORMAT_BLU_RAY = 1;
+    public final static int FORMAT_BLURAY = 1;
     public final static int FORMAT_DIGITAL = 2;
 
     public final static int GENRE_ACTION = 0;
