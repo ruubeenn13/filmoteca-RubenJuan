@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">filmoteca-rubenJuan</string>
+    <string name="film_poster">Film Poster</string>
+
+    <!-- Strings de AboutActivity -->
+    <string name="created_by">Creado por Rubén Juan</string>
+    <string name="go_to_website">IR AL SITIO WEB</string>
+    <string name="get_support">SOPORTE</string>
+    <string name="back">VOLVER</string>
+    <string name="about">Acerca de</string>
+    <string name="app_logo">Logo de la aplicación</string>
+    
+    <!-- Email de soporte -->
+    <string name="support_email">filmoteca@pmdm.es</string>
+    <string name="support_subject">Soporte Filmoteca</string>
+    <string name="support_body">Texto del correo de soporte</string>
+    <string name="email_chooser">Selecciona tu gestor de correo:</string>
 </resources>
