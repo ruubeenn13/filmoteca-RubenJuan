@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,14 +62,17 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void sendSupportEmail() {
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.support_email)});
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_subject));
-        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.support_body));
+        String uriText = "mailto:" + Uri.encode("filmoteca@pmdm.es") +
+                "?subject=" + Uri.encode("Soporte Filmoteca") +
+                "&body=" + Uri.encode("Texto del correo de soporte");
 
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(Intent.createChooser(intent, getString(R.string.email_chooser)));
+        Uri uri = Uri.parse(uriText);
+        Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+
+        try {
+            startActivity(Intent.createChooser(intent, "Enviar email con:"));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "No hay aplicaciones de correo instaladas", Toast.LENGTH_LONG).show();
         }
     }
 }
