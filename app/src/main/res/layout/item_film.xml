@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    android:foreground="?android:attr/selectableItemBackground">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
+        
+        <ImageView
+            android:id="@+id/ivFilmImage"
+            android:layout_width="80dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/film_poster"
+            android:background="@color/divider" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/tvFilmTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Título de la película"
+                android:textSize="18sp"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/secondary_text"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/tvFilmDirector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Director"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/secondary_text"
+                android:maxLines="1"
+                android:ellipsize="end" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
