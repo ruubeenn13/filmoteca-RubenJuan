@@ -9,8 +9,8 @@
 
     <!-- Géneros de las películas -->
     <string-array name="genres">
-        <item>Acción</item>
-        <item>Comedia</item>
+        <item>Action</item>
+        <item>Comedy</item>
         <item>Drama</item>
         <item>Sci-Fi</item>
         <item>Horror</item>

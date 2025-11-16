@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Film Library</string>
+    <string name="film_poster">Movie poster</string>
+
+    <string name="created_by">Created by Rubén Juan</string>
+    <string name="go_to_website">GO TO WEBSITE</string>
+    <string name="get_support">GET SUPPORT</string>
+    <string name="back">BACK</string>
+    <string name="app_logo">Application logo</string>
+
+    <string name="support_email">filmoteca@pmdm.es</string>
+    <string name="support_subject">Film Library Support</string>
+    <string name="support_body">Support email text</string>
+    <string name="email_chooser">Send email with:</string>
+
+    <string name="director">Director:</string>
+    <string name="year">Year:</string>
+    <string name="view_imdb">VIEW ON IMDB</string>
+    <string name="back_to_main">BACK TO MAIN</string>
+    <string name="edit_film">EDIT FILM</string>
+
+    <string name="capture_image">CAPTURE IMAGE</string>
+    <string name="select_image">SELECT IMAGE</string>
+    <string name="save">SAVE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="changes_saved">Changes successfully applied.</string>
+    <string name="changes_cancelled">Changes have been cancelled.</string>
+    <string name="not_implemented">Feature not implemented</string>
+    <string name="title_hint">Title</string>
+    <string name="director_hint">Director</string>
+    <string name="year_hint">Year</string>
+    <string name="url_hint">IMDB URL</string>
+    <string name="comments_hint">Comments</string>
+    <string name="select_format">Select format</string>
+    <string name="select_genre">Select genre</string>
+    <string name="required_fields_error">Please fill in all required fields</string>
+</resources>
