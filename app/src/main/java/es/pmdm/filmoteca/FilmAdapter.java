@@ -36,13 +36,25 @@ public class FilmAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ImageView ivFilmImage;
+        TextView tvFilmTitle;
+        TextView tvFilmDirector;
+
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_film, parent, false);
-        }
 
-        ImageView ivFilmImage = convertView.findViewById(R.id.ivFilmImage);
-        TextView tvFilmTitle = convertView.findViewById(R.id.tvFilmTitle);
-        TextView tvFilmDirector = convertView.findViewById(R.id.tvFilmDirector);
+            ivFilmImage = convertView.findViewById(R.id.ivFilmImage);
+            tvFilmTitle = convertView.findViewById(R.id.tvFilmTitle);
+            tvFilmDirector = convertView.findViewById(R.id.tvFilmDirector);
+
+            convertView.setTag(R.id.ivFilmImage, ivFilmImage);
+            convertView.setTag(R.id.tvFilmTitle, tvFilmTitle);
+            convertView.setTag(R.id.tvFilmDirector, tvFilmDirector);
+        } else {
+            ivFilmImage = (ImageView) convertView.getTag(R.id.ivFilmImage);
+            tvFilmTitle = (TextView) convertView.getTag(R.id.tvFilmTitle);
+            tvFilmDirector = (TextView) convertView.getTag(R.id.tvFilmDirector);
+        }
 
         Film film = getItem(position);
 
