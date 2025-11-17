@@ -38,4 +38,9 @@
     <string name="select_format">Selecciona formato</string>
     <string name="select_genre">Selecciona género</string>
     <string name="required_fields_error">Por favor completa todos los campos obligatorios</string>
+
+    <!-- Menu -->
+    <string name="menu_about">Acerca de</string>
+    <string name="menu_add_film">Añadir película</string>
+    <string name="film_added">Nueva película añadida</string>
 </resources>
