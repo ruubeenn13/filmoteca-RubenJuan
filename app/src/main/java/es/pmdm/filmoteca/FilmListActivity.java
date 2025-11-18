@@ -2,6 +2,7 @@ package es.pmdm.filmoteca;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,8 @@ public class FilmListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        registerForContextMenu(lvFilms);
     }
 
     @Override
@@ -57,6 +60,34 @@ public class FilmListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        if (v.getId() == R.id.lvFilms) {
+            getMenuInflater().inflate(R.menu.menu_context_film, menu);
+            menu.setHeaderTitle(R.string.delete_confirmation);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        if (item.getItemId() == R.id.menu_delete) {
+            deleteFilm(info.position);
+            return true;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void deleteFilm(int position) {
+        FilmDataSource.films.remove(position);
+        adapter.notifyDataSetChanged();
+        Toast.makeText(this, R.string.film_deleted, Toast.LENGTH_SHORT).show();
     }
 
     private void openAboutActivity() {

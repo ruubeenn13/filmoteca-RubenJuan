@@ -43,4 +43,9 @@
     <string name="menu_about">Acerca de</string>
     <string name="menu_add_film">Añadir película</string>
     <string name="film_added">Nueva película añadida</string>
+
+    <!-- Menú para borrar películas -->
+    <string name="menu_delete">Eliminar</string>
+    <string name="film_deleted">Película eliminada</string>
+    <string name="delete_confirmation">¿Eliminar película?</string>
 </resources>

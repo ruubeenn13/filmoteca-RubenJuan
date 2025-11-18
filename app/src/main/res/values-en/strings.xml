@@ -43,4 +43,9 @@
     <string name="menu_about">About</string>
     <string name="menu_add_film">Add film</string>
     <string name="film_added">New film added</string>
+
+    <!-- Menu delete films -->
+    <string name="menu_delete">Delete</string>
+    <string name="film_deleted">Film Deleted</string>
+    <string name="delete_confirmation">Delete film?</string>
 </resources>
