@@ -12,10 +12,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class FilmListActivity extends AppCompatActivity {
 
     private ListView lvFilms;
     private FilmAdapter adapter;
+    private boolean showingFavoritesOnly = false;
+    private ArrayList<Film> allFilms;
+    private ArrayList<Film> favoriteFilms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +31,20 @@ public class FilmListActivity extends AppCompatActivity {
 
         lvFilms = findViewById(R.id.lvFilms);
 
-        adapter = new FilmAdapter(getLayoutInflater(), FilmDataSource.films);
+        allFilms = FilmDataSource.films;
+        favoriteFilms = new ArrayList<>();
+
+        adapter = new FilmAdapter(getLayoutInflater(), allFilms);
         lvFilms.setAdapter(adapter);
 
         lvFilms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Film selectedFilm = (Film) adapter.getItem(position);
+                int realPosition = FilmDataSource.films.indexOf(selectedFilm);
+
                 Intent intent = new Intent(FilmListActivity.this, FilmDataActivity.class);
-                intent.putExtra("FILM_POSITION", position);
+                intent.putExtra("FILM_POSITION", realPosition);
                 startActivity(intent);
             }
         });
@@ -44,6 +55,7 @@ public class FilmListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        menu.add(0, R.id.menu_filter_favorites, 0, R.string.show_favorites);
         return true;
     }
 
@@ -56,6 +68,9 @@ public class FilmListActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.menu_add_film) {
             addNewFilm();
+            return true;
+        } else if (id == R.id.menu_filter_favorites) {
+            toggleFavoritesFilter();
             return true;
         }
 
@@ -77,15 +92,49 @@ public class FilmListActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         if (item.getItemId() == R.id.menu_delete) {
-            deleteFilm(info.position);
+            Film filmToDelete = (Film) adapter.getItem(info.position);
+            deleteFilm(filmToDelete);
             return true;
         }
 
         return super.onContextItemSelected(item);
     }
 
-    private void deleteFilm(int position) {
-        FilmDataSource.films.remove(position);
+    private void toggleFavoritesFilter() {
+        showingFavoritesOnly = !showingFavoritesOnly;
+
+        if (showingFavoritesOnly) {
+            favoriteFilms.clear();
+            for (Film film : allFilms) {
+                if (film.isFavorite()) {
+                    favoriteFilms.add(film);
+                }
+            }
+
+            if (favoriteFilms.isEmpty()) {
+                Toast.makeText(this, R.string.no_favorites, Toast.LENGTH_SHORT).show();
+                showingFavoritesOnly = false;
+            } else {
+                adapter = new FilmAdapter(getLayoutInflater(), favoriteFilms);
+                lvFilms.setAdapter(adapter);
+                Toast.makeText(this, R.string.showing_favorites, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            adapter = new FilmAdapter(getLayoutInflater(), allFilms);
+            lvFilms.setAdapter(adapter);
+            Toast.makeText(this, R.string.showing_all, Toast.LENGTH_SHORT).show();
+        }
+
+        invalidateOptionsMenu();
+    }
+
+    private void deleteFilm(Film film) {
+        FilmDataSource.films.remove(film);
+
+        if (showingFavoritesOnly) {
+            favoriteFilms.remove(film);
+        }
+
         adapter.notifyDataSetChanged();
         Toast.makeText(this, R.string.film_deleted, Toast.LENGTH_SHORT).show();
     }
@@ -117,7 +166,12 @@ public class FilmListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (adapter != null) {
-            adapter.notifyDataSetChanged();
+            if (showingFavoritesOnly) {
+                toggleFavoritesFilter();
+                toggleFavoritesFilter();
+            } else {
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 }

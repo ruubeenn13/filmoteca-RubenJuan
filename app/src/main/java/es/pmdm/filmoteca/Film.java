@@ -20,9 +20,10 @@ public class Film {
     private int format;
     private String imbdURL;
     private String comments;
+    private boolean isFavorite;
 
     public Film(){
-
+        this.isFavorite = false;
     }
 
     public Film(int imageResId, String title, String director, int year, int genre, int format, String imbdURL, String comments) {
@@ -34,6 +35,7 @@ public class Film {
         this.format = format;
         this.imbdURL = imbdURL;
         this.comments = comments;
+        this.isFavorite = false;
     }
 
     public int getImageResId() {
@@ -98,6 +100,14 @@ public class Film {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 
     @Override

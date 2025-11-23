@@ -48,4 +48,13 @@
     <string name="menu_delete">Delete</string>
     <string name="film_deleted">Film Deleted</string>
     <string name="delete_confirmation">Delete film?</string>
+
+    <!-- Add favourites improvement -->
+    <string name="favorite">Favorite</string>
+    <string name="added_to_favorites">Added to favorites</string>
+    <string name="removed_from_favorites">Removed from favorites</string>
+    <string name="show_favorites">Show favorites</string>
+    <string name="showing_favorites">Showing only favorites</string>
+    <string name="showing_all">Showing all films</string>
+    <string name="no_favorites">No favorite films</string>
 </resources>

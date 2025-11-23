@@ -48,4 +48,13 @@
     <string name="menu_delete">Eliminar</string>
     <string name="film_deleted">Película eliminada</string>
     <string name="delete_confirmation">¿Eliminar película?</string>
+
+    <!-- Mejora añadir favoritos -->
+    <string name="favorite">Favorito</string>
+    <string name="added_to_favorites">Añadido a favoritos</string>
+    <string name="removed_from_favorites">Eliminado de favoritos</string>
+    <string name="show_favorites">Mostrar favoritos</string>
+    <string name="showing_favorites">Mostrando solo favoritos</string>
+    <string name="showing_all">Mostrando todas las películas</string>
+    <string name="no_favorites">No hay películas favoritas</string>
 </resources>
