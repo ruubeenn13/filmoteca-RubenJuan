@@ -173,6 +173,10 @@ public class FilmDataActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (filmPosition != -1 && filmPosition < FilmDataSource.films.size()) {
+            currentFilm = FilmDataSource.films.get(filmPosition);
+            displayFilmData();
+        }
         if (currentFilm != null) {
             updateFavoriteIcon();
         }
