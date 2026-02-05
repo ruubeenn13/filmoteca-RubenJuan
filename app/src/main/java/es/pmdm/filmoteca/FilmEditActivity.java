@@ -1,5 +1,8 @@
 package es.pmdm.filmoteca;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,6 +13,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class FilmEditActivity extends AppCompatActivity {
 
@@ -28,6 +33,7 @@ public class FilmEditActivity extends AppCompatActivity {
     private Button btnSelectImage;
     private Button btnCancel;
     private Button btnSave;
+    private static final int CAMERA_PERMISSION_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +99,7 @@ public class FilmEditActivity extends AppCompatActivity {
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FilmEditActivity.this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                checkCameraPermissionAndOpen();
             }
         });
 
@@ -118,6 +124,32 @@ public class FilmEditActivity extends AppCompatActivity {
                 saveChanges();
             }
         });
+    }
+
+    private void checkCameraPermissionAndOpen() {
+        int estado = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+
+        if (estado != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
+        } else {
+            openCamera();
+        }
+    }
+
+    private void openCamera() {
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, R.string.permission_conceded_capture, Toast.LENGTH_SHORT).show();
+            openCamera();
+        } else {
+            Toast.makeText(this, R.string.permission_denied_capture, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void saveChanges() {

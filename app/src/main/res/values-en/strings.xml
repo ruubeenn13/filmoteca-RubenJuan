@@ -39,6 +39,8 @@
     <string name="select_format">Select format</string>
     <string name="select_genre">Select genre</string>
     <string name="required_fields_error">Please fill in all required fields</string>
+    <string name="permission_denied_capture">Open camera permission missing</string>
+    <string name="permission_conceded_capture">Camera permission granted</string>
 
     <!-- Menu -->
     <string name="menu_about">About</string>

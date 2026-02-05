@@ -39,6 +39,8 @@
     <string name="select_format">Selecciona formato</string>
     <string name="select_genre">Selecciona género</string>
     <string name="required_fields_error">Por favor completa todos los campos obligatorios</string>
+    <string name="permission_denied_capture">Faltan los permisos para abrir la cámara</string>
+    <string name="permission_conceded_capture">Permiso de cámara concedido</string>
 
     <!-- Menu -->
     <string name="menu_about">Acerca de</string>
