@@ -18,6 +18,7 @@
     <!-- FilmDataActivity -->
     <string name="director">Director:</string>
     <string name="year">Year:</string>
+    <string name="format_genre">Genre</string>
     <string name="view_imdb">VIEW ON IMDB</string>
     <string name="back_to_main">BACK TO MAIN</string>
     <string name="edit_film">EDIT FILM</string>

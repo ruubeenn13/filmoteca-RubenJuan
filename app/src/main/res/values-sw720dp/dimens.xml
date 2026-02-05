@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dimensiones para tablets 10" (~720dp) -->
+    <dimen name="card_margin">16dp</dimen>
+    <dimen name="card_padding">20dp</dimen>
+    <dimen name="card_elevation">8dp</dimen>
+    <dimen name="card_corner_radius">16dp</dimen>
+
+    <dimen name="text_title_size">24sp</dimen>
+    <dimen name="text_director_size">18sp</dimen>
+    <dimen name="text_body_size">18sp</dimen>
+
+    <dimen name="poster_width">160dp</dimen>
+    <dimen name="poster_height">240dp</dimen>
+
+    <dimen name="button_padding">20dp</dimen>
+    <dimen name="screen_padding">24dp</dimen>
+</resources>

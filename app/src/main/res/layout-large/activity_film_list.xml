@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background"
-    android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context=".FilmListActivity">
 
-    <ListView
+    <!-- GridView para pantallas grandes (2 columnas) -->
+    <GridView
         android:id="@+id/lvFilms"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:clipToPadding="false" />
+        android:numColumns="2"
+        android:horizontalSpacing="8dp"
+        android:verticalSpacing="8dp"
+        android:padding="8dp"
+        android:stretchMode="columnWidth" />
 
 </LinearLayout>

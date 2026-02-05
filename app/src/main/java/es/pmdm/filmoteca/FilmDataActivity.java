@@ -177,8 +177,5 @@ public class FilmDataActivity extends AppCompatActivity {
             currentFilm = FilmDataSource.films.get(filmPosition);
             displayFilmData();
         }
-        if (currentFilm != null) {
-            updateFavoriteIcon();
-        }
     }
 }

@@ -34,7 +34,12 @@ public class FilmEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film_edit);
 
-        position = getIntent().getIntExtra("FILM_POSITION", 0);
+        if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
+            position = savedInstanceState.getInt("position");
+        } else {
+            position = getIntent().getIntExtra("FILM_POSITION", 0);
+        }
+
         film = FilmDataSource.films.get(position);
 
         ivFilmImage = findViewById(R.id.ivFilmImage);
@@ -146,6 +151,7 @@ public class FilmEditActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putInt("position", position);
         outState.putString("title", etFilmTitle.getText().toString());
         outState.putString("director", etFilmDirector.getText().toString());
         outState.putString("year", etFilmYear.getText().toString());

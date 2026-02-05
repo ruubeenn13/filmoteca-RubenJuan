@@ -50,22 +50,22 @@
             android:id="@+id/tvDirectorLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/director"
-            android:textStyle="bold"
-            android:textColor="@color/primary_text"
-            app:layout_constraintStart_toEndOf="@id/ivFilmImage"
+            android:textColor="@color/secondary_text"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tvFilmTitle"
             app:layout_constraintTop_toBottomOf="@id/tvFilmTitle" />
 
         <TextView
             android:id="@+id/tvFilmDirector"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/secondary_text"
+            android:textSize="16sp"
+            android:textColor="@color/primary_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvDirectorLabel"
-            app:layout_constraintTop_toTopOf="@id/tvDirectorLabel" />
+            app:layout_constraintStart_toStartOf="@id/tvDirectorLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvDirectorLabel" />
 
         <TextView
             android:id="@+id/tvYearLabel"
@@ -73,90 +73,92 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/year"
-            android:textStyle="bold"
-            android:textColor="@color/primary_text"
-            app:layout_constraintStart_toEndOf="@id/ivFilmImage"
-            app:layout_constraintTop_toBottomOf="@id/tvDirectorLabel" />
+            android:textColor="@color/secondary_text"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tvFilmDirector"
+            app:layout_constraintTop_toBottomOf="@id/tvFilmDirector" />
 
         <TextView
             android:id="@+id/tvFilmYear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/secondary_text"
+            android:textSize="16sp"
+            android:textColor="@color/primary_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvYearLabel"
-            app:layout_constraintTop_toTopOf="@id/tvYearLabel" />
+            app:layout_constraintStart_toStartOf="@id/tvYearLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvYearLabel" />
+
+        <TextView
+            android:id="@+id/tvFormatGenreLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/format_genre"
+            android:textColor="@color/secondary_text"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tvFilmYear"
+            app:layout_constraintTop_toBottomOf="@id/tvFilmYear" />
 
         <TextView
             android:id="@+id/tvFilmFormatGenre"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textColor="@color/primary_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvFormatGenreLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvFormatGenreLabel" />
+
+        <TextView
+            android:id="@+id/tvCommentsLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/comments_hint"
             android:textColor="@color/secondary_text"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivFilmImage"
-            app:layout_constraintTop_toBottomOf="@id/tvYearLabel" />
-
-        <View
-            android:id="@+id/divider1"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/divider"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivFavorite" />
 
         <TextView
             android:id="@+id/tvFilmComments"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
             android:textColor="@color/primary_text"
-            android:lineSpacingExtra="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider1" />
-
-        <Button
-            android:id="@+id/btnViewImdb"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/primary"
-            android:text="@string/view_imdb"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFilmComments" />
+            app:layout_constraintTop_toBottomOf="@id/tvCommentsLabel" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnViewImdb">
+            android:layout_marginTop="24dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/tvFilmComments">
+
+            <Button
+                android:id="@+id/btnViewImdb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/primary"
+                android:text="@string/view_imdb"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btnBackToMain"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
                 android:backgroundTint="@color/primary"
                 android:text="@string/back_to_main"
                 android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btnEditFilm"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:backgroundTint="@color/primary"
                 android:text="@string/edit_film"
                 android:textColor="@color/white" />
@@ -164,4 +166,5 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>
