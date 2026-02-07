@@ -19,9 +19,13 @@
     <string name="director">Director:</string>
     <string name="year">Año:</string>
     <string name="format_genre">Género</string>
+    <string name="view_on_imdb">VER EN IMDB</string>
     <string name="view_imdb">VER EN IMDB</string>
     <string name="back_to_main">VOLVER AL PRINCIPAL</string>
     <string name="edit_film">EDITAR PELÍCULA</string>
+    <string name="comments">Comentarios</string>
+    <string name="comments_text">Película añadida desde el menú. Edita sus datos.</string>
+    <string name="title">Título</string>
 
     <!-- FilmEditActivity -->
     <string name="capture_image">CAPTURA IMAGEN</string>
@@ -35,9 +39,12 @@
     <string name="director_hint">Director</string>
     <string name="year_hint">Año</string>
     <string name="url_hint">URL IMDB</string>
+    <string name="imdb_url">URL IMDB</string>
     <string name="comments_hint">Comentarios</string>
     <string name="select_format">Selecciona formato</string>
     <string name="select_genre">Selecciona género</string>
+    <string name="genre">Género</string>
+    <string name="format">Formato</string>
     <string name="required_fields_error">Por favor completa todos los campos obligatorios</string>
     <string name="permission_denied_capture">Faltan los permisos para abrir la cámara</string>
     <string name="permission_conceded_capture">Permiso de cámara concedido</string>
@@ -60,4 +67,41 @@
     <string name="showing_favorites">Mostrando solo favoritos</string>
     <string name="showing_all">Mostrando todas las películas</string>
     <string name="no_favorites">No hay películas favoritas</string>
+
+    <!-- Notificaciones -->
+    <string name="permission_notification_granted">Permiso de notificaciones concedido</string>
+    <string name="permission_notification_denied">Permiso de notificaciones denegado</string>
+    <string name="notification_channel_name">Notificaciones Filmoteca</string>
+    <string name="notification_channel_description">Notificaciones de la aplicación Filmoteca</string>
+    <string name="notification_film_deleted_title">Película eliminada</string>
+    <string name="notification_film_deleted_text">La película %s ha sido eliminada</string>
+
+    <!-- Notificaciones expandibles -->
+    <string name="notification_film_added_title">Nueva película añadida</string>
+    <string name="notification_film_added_text">La película %s ha sido creada</string>
+    <string name="notification_film_details">Detalles de la película:</string>
+    <string name="notification_film_title_label">Título: %s</string>
+    <string name="notification_film_director_label">Director: %s</string>
+    <string name="notification_film_year_label">Año: %d</string>
+    <string name="notification_film_genre_label">Género: %s</string>
+    <string name="notification_film_format_label">Formato: %s</string>
+    <string name="notification_film_tap_to_edit">Toca para editar los detalles</string>
+
+    <!-- Dialogos -->
+    <string name="delete_title_dialog">Eliminar película</string>
+    <string name="delete_confirmation_dialog">¿Estás seguro de eliminar la película \"%1$s\"?</string>
+    <string name="delete_canceled_dialog">Eliminación cancelada</string>
+    <string name="update_title_dialog">Actualizar película</string>
+    <string name="update_confirmation_dialog">¿Estás seguro de actualizar la película \"%1$s\"?</string>
+    <string name="update_canceled_dialog">Actualización cancelada</string>
+    <string name="add_film_dialog_title">Añadir nueva película</string>
+    <string name="yes">SI</string>
+    <string name="no">NO</string>
+    <string name="introduce_title">Título de la película</string>
+    <string name="introduce_director">Director de la película</string>
+    <string name="title_hint_dialog">Introduce el título</string>
+    <string name="director_hint_dialog">Introduce el director</string>
+    <string name="accept">ACEPTAR</string>
+    <string name="operation_canceled">Operación cancelada</string>
+    <string name="fill_all_fields">Por favor, completa todos los campos</string>
 </resources>

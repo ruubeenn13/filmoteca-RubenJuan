@@ -1,17 +1,20 @@
 package es.pmdm.filmoteca;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -58,6 +61,7 @@ public class FilmListActivity extends AppCompatActivity {
         registerForContextMenu(lvFilms);
 
         requestNotificationPermission();
+        NotificationHelper.createNotificationChannel(this);
     }
 
     @Override
@@ -100,8 +104,34 @@ public class FilmListActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         if (item.getItemId() == R.id.menu_delete) {
-            Film filmToDelete = (Film) adapter.getItem(info.position);
-            deleteFilm(filmToDelete);
+            final Film filmToDelete = (Film) adapter.getItem(info.position);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.delete_title_dialog);
+            builder.setMessage(getString(R.string.delete_confirmation_dialog, filmToDelete.getTitle()));
+            builder.setIcon(android.R.drawable.ic_dialog_alert);
+
+            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String filmTitle = filmToDelete.getTitle();
+                    deleteFilm(filmToDelete);
+                    ToastHelper.showCustomToast(FilmListActivity.this, R.string.film_deleted);
+                    NotificationHelper.showFilmDeletedNotification(FilmListActivity.this, filmTitle);
+                }
+            });
+
+            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ToastHelper.showCustomToast(FilmListActivity.this, R.string.delete_canceled_dialog);
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
             return true;
         }
 
@@ -120,17 +150,17 @@ public class FilmListActivity extends AppCompatActivity {
             }
 
             if (favoriteFilms.isEmpty()) {
-                Toast.makeText(this, R.string.no_favorites, Toast.LENGTH_SHORT).show();
+                ToastHelper.showCustomToast(this, R.string.no_favorites);
                 showingFavoritesOnly = false;
             } else {
                 adapter = new FilmAdapter(getLayoutInflater(), favoriteFilms);
                 lvFilms.setAdapter(adapter);
-                Toast.makeText(this, R.string.showing_favorites, Toast.LENGTH_SHORT).show();
+                ToastHelper.showCustomToast(this, R.string.showing_favorites);
             }
         } else {
             adapter = new FilmAdapter(getLayoutInflater(), allFilms);
             lvFilms.setAdapter(adapter);
-            Toast.makeText(this, R.string.showing_all, Toast.LENGTH_SHORT).show();
+            ToastHelper.showCustomToast(this, R.string.showing_all);
         }
 
         invalidateOptionsMenu();
@@ -144,7 +174,6 @@ public class FilmListActivity extends AppCompatActivity {
         }
 
         adapter.notifyDataSetChanged();
-        Toast.makeText(this, R.string.film_deleted, Toast.LENGTH_SHORT).show();
     }
 
     private void openAboutActivity() {
@@ -153,21 +182,60 @@ public class FilmListActivity extends AppCompatActivity {
     }
 
     private void addNewFilm() {
-        Film newFilm = new Film();
-        newFilm.setTitle("Nueva Película");
-        newFilm.setDirector("Director Desconocido");
-        newFilm.setYear(2025);
-        newFilm.setImbdURL("http://www.imdb.com");
-        newFilm.setFormat(Film.FORMAT_DIGITAL);
-        newFilm.setGenre(Film.GENRE_SCIFI);
-        newFilm.setComments("Película añadida desde el menú. Edita sus datos.");
-        newFilm.setImageResId(R.drawable.ic_launcher_foreground);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_add_film, null);
 
-        FilmDataSource.films.add(newFilm);
+        final EditText etDialogTitle = dialogView.findViewById(R.id.etDialogTitle);
+        final EditText etDialogDirector = dialogView.findViewById(R.id.etDialogDirector);
 
-        adapter.notifyDataSetChanged();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.add_film_dialog_title);
+        builder.setIcon(android.R.drawable.ic_input_add);
+        builder.setView(dialogView);
 
-        Toast.makeText(this, R.string.film_added, Toast.LENGTH_SHORT).show();
+        builder.setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String title = etDialogTitle.getText().toString().trim();
+                String director = etDialogDirector.getText().toString().trim();
+
+                if (title.isEmpty() || director.isEmpty()) {
+                    ToastHelper.showCustomToast(FilmListActivity.this, R.string.fill_all_fields);
+                    return;
+                }
+
+                Film newFilm = new Film();
+                newFilm.setTitle(title);
+                newFilm.setDirector(director);
+                newFilm.setYear(2025);
+                newFilm.setImbdURL("http://www.imdb.com");
+                newFilm.setFormat(Film.FORMAT_DIGITAL);
+                newFilm.setGenre(Film.GENRE_SCIFI);
+                newFilm.setComments(getString(R.string.comments_text));
+                newFilm.setImageResId(R.drawable.ic_launcher_foreground);
+
+                FilmDataSource.films.add(newFilm);
+
+                int newFilmPosition = FilmDataSource.films.size() - 1;
+
+                adapter.notifyDataSetChanged();
+
+                ToastHelper.showCustomToast(FilmListActivity.this, R.string.film_added);
+
+                NotificationHelper.showFilmAddedNotification(FilmListActivity.this, newFilm, newFilmPosition);
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ToastHelper.showCustomToast(FilmListActivity.this, R.string.operation_canceled);
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void requestNotificationPermission() {
@@ -187,9 +255,9 @@ public class FilmListActivity extends AppCompatActivity {
 
         if (requestCode == NOTIFICATION_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permiso de notificaciones concedido", Toast.LENGTH_SHORT).show();
+                ToastHelper.showCustomToast(this, R.string.permission_notification_granted);
             } else {
-                Toast.makeText(this, "Permiso de notificaciones denegado", Toast.LENGTH_SHORT).show();
+                ToastHelper.showCustomToast(this, R.string.permission_notification_denied);
             }
         }
     }

@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -109,7 +108,7 @@ public class FilmDataActivity extends AppCompatActivity {
         String message = currentFilm.isFavorite() ?
                 getString(R.string.added_to_favorites) :
                 getString(R.string.removed_from_favorites);
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        ToastHelper.showCustomToast(this, message);
     }
 
     private void updateFavoriteIcon() {
@@ -133,12 +132,16 @@ public class FilmDataActivity extends AppCompatActivity {
         newFilm.setImbdURL("http://www.imdb.com");
         newFilm.setFormat(Film.FORMAT_DIGITAL);
         newFilm.setGenre(Film.GENRE_SCIFI);
-        newFilm.setComments("Película añadida desde el menú. Edita sus datos.");
+        newFilm.setComments(getString(R.string.comments_text));
         newFilm.setImageResId(R.drawable.ic_launcher_foreground);
 
         FilmDataSource.films.add(newFilm);
 
-        Toast.makeText(this, R.string.film_added, Toast.LENGTH_SHORT).show();
+        int newFilmPosition = FilmDataSource.films.size() - 1;
+
+        ToastHelper.showCustomToast(this, R.string.film_added);
+
+        NotificationHelper.showFilmAddedNotification(this, newFilm, newFilmPosition);
     }
 
     private void displayFilmData() {

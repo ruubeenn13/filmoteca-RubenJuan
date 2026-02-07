@@ -1,6 +1,8 @@
 package es.pmdm.filmoteca;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -10,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -106,14 +107,14 @@ public class FilmEditActivity extends AppCompatActivity {
         btnSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FilmEditActivity.this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                ToastHelper.showCustomToast(FilmEditActivity.this, R.string.not_implemented);
             }
         });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FilmEditActivity.this, R.string.changes_cancelled, Toast.LENGTH_SHORT).show();
+                ToastHelper.showCustomToast(FilmEditActivity.this, R.string.changes_cancelled);
                 finish();
             }
         });
@@ -130,7 +131,9 @@ public class FilmEditActivity extends AppCompatActivity {
         int estado = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
 
         if (estado != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    CAMERA_PERMISSION_CODE);
         } else {
             openCamera();
         }
@@ -144,40 +147,64 @@ public class FilmEditActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, R.string.permission_conceded_capture, Toast.LENGTH_SHORT).show();
-            openCamera();
-        } else {
-            Toast.makeText(this, R.string.permission_denied_capture, Toast.LENGTH_SHORT).show();
+
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                ToastHelper.showCustomToast(this, R.string.permission_conceded_capture);
+                openCamera();
+            } else {
+                ToastHelper.showCustomToast(this, R.string.permission_denied_capture);
+            }
         }
     }
 
     private void saveChanges() {
-        String title = etFilmTitle.getText().toString().trim();
-        String director = etFilmDirector.getText().toString().trim();
-        String yearStr = etFilmYear.getText().toString().trim();
-        String url = etFilmUrl.getText().toString().trim();
-        String comments = etFilmComments.getText().toString().trim();
+        final String title = etFilmTitle.getText().toString().trim();
+        final String director = etFilmDirector.getText().toString().trim();
+        final String yearStr = etFilmYear.getText().toString().trim();
+        final String url = etFilmUrl.getText().toString().trim();
+        final String comments = etFilmComments.getText().toString().trim();
 
         if (title.isEmpty() || director.isEmpty() || yearStr.isEmpty()) {
-            Toast.makeText(this, "Por favor completa todos los campos obligatorios", Toast.LENGTH_SHORT).show();
+            ToastHelper.showCustomToast(this, R.string.required_fields_error);
             return;
         }
 
-        int year = Integer.parseInt(yearStr);
-        int genre = spFilmGenre.getSelectedItemPosition();
-        int format = spFilmFormat.getSelectedItemPosition();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.update_title_dialog);
+        builder.setMessage(getString(R.string.update_confirmation_dialog, film.getTitle()));
+        builder.setIcon(android.R.drawable.ic_dialog_info);
 
-        film.setTitle(title);
-        film.setDirector(director);
-        film.setYear(year);
-        film.setImbdURL(url);
-        film.setComments(comments);
-        film.setGenre(genre);
-        film.setFormat(format);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int year = Integer.parseInt(yearStr);
+                int genre = spFilmGenre.getSelectedItemPosition();
+                int format = spFilmFormat.getSelectedItemPosition();
 
-        Toast.makeText(this, R.string.changes_saved, Toast.LENGTH_SHORT).show();
-        finish();
+                film.setTitle(title);
+                film.setDirector(director);
+                film.setYear(year);
+                film.setImbdURL(url);
+                film.setComments(comments);
+                film.setGenre(genre);
+                film.setFormat(format);
+
+                ToastHelper.showCustomToast(FilmEditActivity.this, R.string.changes_saved);
+                finish();
+            }
+        });
+
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ToastHelper.showCustomToast(FilmEditActivity.this, R.string.update_canceled_dialog);
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
