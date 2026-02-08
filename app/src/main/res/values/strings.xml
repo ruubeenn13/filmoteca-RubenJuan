@@ -104,4 +104,15 @@
     <string name="accept">ACEPTAR</string>
     <string name="operation_canceled">Operación cancelada</string>
     <string name="fill_all_fields">Por favor, completa todos los campos</string>
+
+    <!-- Compartir películas -->
+    <string name="menu_share">Compartir</string>
+    <string name="share_dialog_title">Recomendar Película</string>
+    <string name="share_via_sms">Compartir por SMS</string>
+    <string name="share_via_whatsapp">Compartir por WhatsApp</string>
+    <string name="permission_sms_granted">Permiso de SMS concedido</string>
+    <string name="permission_sms_denied">Permiso de SMS denegado</string>
+    <string name="whatsapp_not_installed">WhatsApp no está instalado</string>
+    <string name="no_messaging_app">No hay una aplicación de mensajería instalada</string>
+    <string name="share_film_message">Te recomiendo la película: %s</string>
 </resources>

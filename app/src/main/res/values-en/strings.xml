@@ -104,4 +104,15 @@
     <string name="accept">ACCEPT</string>
     <string name="operation_canceled">Operation cancelled</string>
     <string name="fill_all_fields">Please fill in all fields</string>
+
+    <!-- Share films -->
+    <string name="menu_share">Share</string>
+    <string name="share_dialog_title">Recommend Film</string>
+    <string name="share_via_sms">Share via SMS</string>
+    <string name="share_via_whatsapp">Share via WhatsApp</string>
+    <string name="permission_sms_granted">SMS permission granted</string>
+    <string name="permission_sms_denied">SMS permission denied</string>
+    <string name="whatsapp_not_installed">WhatsApp is not installed</string>
+    <string name="no_messaging_app">No messaging app installed</string>
+    <string name="share_film_message">I recommend the film: %s</string>
 </resources>

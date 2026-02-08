@@ -2,9 +2,11 @@ package es.pmdm.filmoteca;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -30,6 +32,9 @@ public class FilmListActivity extends AppCompatActivity {
     private ArrayList<Film> allFilms;
     private ArrayList<Film> favoriteFilms;
     private static final int NOTIFICATION_PERMISSION_CODE = 100;
+    private static final int SMS_PERMISSION_CODE = 102;
+    private Film filmToShare = null;
+    private static final String MY_PHONE_NUMBER = "+34722794304";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,40 +107,134 @@ public class FilmListActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final Film selectedFilm = (Film) adapter.getItem(info.position);
 
         if (item.getItemId() == R.id.menu_delete) {
-            final Film filmToDelete = (Film) adapter.getItem(info.position);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.delete_title_dialog);
-            builder.setMessage(getString(R.string.delete_confirmation_dialog, filmToDelete.getTitle()));
-            builder.setIcon(android.R.drawable.ic_dialog_alert);
-
-            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String filmTitle = filmToDelete.getTitle();
-                    deleteFilm(filmToDelete);
-                    ToastHelper.showCustomToast(FilmListActivity.this, R.string.film_deleted);
-                    NotificationHelper.showFilmDeletedNotification(FilmListActivity.this, filmTitle);
-                }
-            });
-
-            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    ToastHelper.showCustomToast(FilmListActivity.this, R.string.delete_canceled_dialog);
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
+            showDeleteDialog(selectedFilm);
+            return true;
+        } else if (item.getItemId() == R.id.menu_share) {
+            filmToShare = selectedFilm;
+            checkSmsPermissionAndShare();
             return true;
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    private void showDeleteDialog(final Film filmToDelete) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.delete_title_dialog);
+        builder.setMessage(getString(R.string.delete_confirmation_dialog, filmToDelete.getTitle()));
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String filmTitle = filmToDelete.getTitle();
+                deleteFilm(filmToDelete);
+                ToastHelper.showCustomToast(FilmListActivity.this, R.string.film_deleted);
+                NotificationHelper.showFilmDeletedNotification(FilmListActivity.this, filmTitle);
+            }
+        });
+
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ToastHelper.showCustomToast(FilmListActivity.this, R.string.delete_canceled_dialog);
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void checkSmsPermissionAndShare() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.SEND_SMS},
+                    SMS_PERMISSION_CODE);
+        } else {
+            showShareDialog();
+        }
+    }
+
+    private void showShareDialog() {
+        if (filmToShare == null) return;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.share_dialog_title);
+        builder.setIcon(android.R.drawable.ic_menu_share);
+
+        String[] options = {
+                getString(R.string.share_via_sms),
+                getString(R.string.share_via_whatsapp)
+        };
+
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String message = getString(R.string.share_film_message, filmToShare.getTitle());
+
+                if (which == 0) {
+                    enviarViaAppMensajes(MY_PHONE_NUMBER, message);
+                } else if (which == 1) {
+                    enviarViaWhatsApp(MY_PHONE_NUMBER, message);
+                }
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void enviarViaWhatsApp(String phoneNumber, String message) {
+        try {
+            String url = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + Uri.encode(message);
+            Intent whatsappIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(whatsappIntent);
+        } catch (ActivityNotFoundException e) {
+            ToastHelper.showCustomToast(this, R.string.whatsapp_not_installed);
+        }
+    }
+
+    private void enviarViaAppMensajes(String phoneNumber, String message) {
+        Uri smsUri = Uri.parse("smsto:" + phoneNumber);
+        Intent smsIntent = new Intent(Intent.ACTION_SENDTO, smsUri);
+        smsIntent.putExtra("sms_body", message);
+        try {
+            startActivity(smsIntent);
+        } catch (ActivityNotFoundException e) {
+            ToastHelper.showCustomToast(this, R.string.no_messaging_app);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                ToastHelper.showCustomToast(this, R.string.permission_notification_granted);
+            } else {
+                ToastHelper.showCustomToast(this, R.string.permission_notification_denied);
+            }
+        } else if (requestCode == SMS_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                ToastHelper.showCustomToast(this, R.string.permission_sms_granted);
+                showShareDialog();
+            } else {
+                ToastHelper.showCustomToast(this, R.string.permission_sms_denied);
+            }
+        }
     }
 
     private void toggleFavoritesFilter() {
@@ -245,19 +344,6 @@ public class FilmListActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.POST_NOTIFICATIONS},
                         NOTIFICATION_PERMISSION_CODE);
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                ToastHelper.showCustomToast(this, R.string.permission_notification_granted);
-            } else {
-                ToastHelper.showCustomToast(this, R.string.permission_notification_denied);
             }
         }
     }
