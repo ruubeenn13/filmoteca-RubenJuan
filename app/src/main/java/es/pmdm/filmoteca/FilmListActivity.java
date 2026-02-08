@@ -41,7 +41,7 @@ public class FilmListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film_list);
 
-        FilmDataSource.Initialize();
+        FilmDataSource.Initialize(this);
 
         lvFilms = findViewById(R.id.lvFilms);
 
@@ -266,7 +266,7 @@ public class FilmListActivity extends AppCompatActivity {
     }
 
     private void deleteFilm(Film film) {
-        FilmDataSource.films.remove(film);
+        FilmDataSource.deleteFilm(film);
 
         if (showingFavoritesOnly) {
             favoriteFilms.remove(film);
@@ -313,7 +313,7 @@ public class FilmListActivity extends AppCompatActivity {
                 newFilm.setComments(getString(R.string.comments_text));
                 newFilm.setImageResId(R.drawable.ic_launcher_foreground);
 
-                FilmDataSource.films.add(newFilm);
+                FilmDataSource.addFilm(newFilm);
 
                 int newFilmPosition = FilmDataSource.films.size() - 1;
 

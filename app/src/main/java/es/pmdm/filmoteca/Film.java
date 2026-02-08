@@ -1,49 +1,38 @@
 package es.pmdm.filmoteca;
 
 public class Film {
+    public static final int FORMAT_DVD = 0;
+    public static final int FORMAT_BLURAY = 1;
+    public static final int FORMAT_DIGITAL = 2;
 
-    public final static int FORMAT_DVD = 0;
-    public final static int FORMAT_BLURAY = 1;
-    public final static int FORMAT_DIGITAL = 2;
+    public static final int GENRE_ACTION = 0;
+    public static final int GENRE_COMEDY = 1;
+    public static final int GENRE_DRAMA = 2;
+    public static final int GENRE_SCIFI = 3;
+    public static final int GENRE_HORROR = 4;
 
-    public final static int GENRE_ACTION = 0;
-    public final static int GENRE_COMEDY = 1;
-    public final static int GENRE_DRAMA = 2;
-    public final static int GENRE_SCIFI = 3;
-    public final static int GENRE_HORROR = 4;
-
-    private int imageResId;
+    private long id;
     private String title;
     private String director;
     private int year;
-    private int genre;
-    private int format;
     private String imbdURL;
+    private int format;
+    private int genre;
     private String comments;
+    private int imageResId;
     private boolean isFavorite;
 
-    public Film(){
+    public Film() {
+        this.id = -1;
         this.isFavorite = false;
     }
 
-    public Film(int imageResId, String title, String director, int year, int genre, int format, String imbdURL, String comments) {
-        this.imageResId = imageResId;
-        this.title = title;
-        this.director = director;
-        this.year = year;
-        this.genre = genre;
-        this.format = format;
-        this.imbdURL = imbdURL;
-        this.comments = comments;
-        this.isFavorite = false;
+    public long getId() {
+        return id;
     }
 
-    public int getImageResId() {
-        return imageResId;
-    }
-
-    public void setImageResId(int imageResId) {
-        this.imageResId = imageResId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -70,12 +59,12 @@ public class Film {
         this.year = year;
     }
 
-    public int getGenre() {
-        return genre;
+    public String getImbdURL() {
+        return imbdURL;
     }
 
-    public void setGenre(int genre) {
-        this.genre = genre;
+    public void setImbdURL(String imbdURL) {
+        this.imbdURL = imbdURL;
     }
 
     public int getFormat() {
@@ -86,12 +75,12 @@ public class Film {
         this.format = format;
     }
 
-    public String getImbdURL() {
-        return imbdURL;
+    public int getGenre() {
+        return genre;
     }
 
-    public void setImbdURL(String imbdURL) {
-        this.imbdURL = imbdURL;
+    public void setGenre(int genre) {
+        this.genre = genre;
     }
 
     public String getComments() {
@@ -102,20 +91,19 @@ public class Film {
         this.comments = comments;
     }
 
+    public int getImageResId() {
+        return imageResId;
+    }
+
+    public void setImageResId(int imageResId) {
+        this.imageResId = imageResId;
+    }
+
     public boolean isFavorite() {
         return isFavorite;
     }
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
-    }
-
-    @Override
-    public String toString() {
-        return "Film{" +
-                "title='" + title + '\'' +
-                ", director='" + director + '\'' +
-                ", year='" + year + '\'' +
-                '}';
     }
 }

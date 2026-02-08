@@ -190,6 +190,8 @@ public class FilmEditActivity extends AppCompatActivity {
                 film.setGenre(genre);
                 film.setFormat(format);
 
+                FilmDataSource.updateFilm(film);
+
                 ToastHelper.showCustomToast(FilmEditActivity.this, R.string.changes_saved);
                 finish();
             }

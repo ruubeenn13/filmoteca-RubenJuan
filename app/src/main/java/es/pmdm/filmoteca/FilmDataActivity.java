@@ -105,6 +105,8 @@ public class FilmDataActivity extends AppCompatActivity {
         currentFilm.setFavorite(!currentFilm.isFavorite());
         updateFavoriteIcon();
 
+        FilmDataSource.updateFilm(currentFilm);
+
         String message = currentFilm.isFavorite() ?
                 getString(R.string.added_to_favorites) :
                 getString(R.string.removed_from_favorites);
@@ -135,7 +137,7 @@ public class FilmDataActivity extends AppCompatActivity {
         newFilm.setComments(getString(R.string.comments_text));
         newFilm.setImageResId(R.drawable.ic_launcher_foreground);
 
-        FilmDataSource.films.add(newFilm);
+        FilmDataSource.addFilm(newFilm);
 
         int newFilmPosition = FilmDataSource.films.size() - 1;
 
