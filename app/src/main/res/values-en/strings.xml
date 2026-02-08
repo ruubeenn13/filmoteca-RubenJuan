@@ -115,4 +115,22 @@
     <string name="whatsapp_not_installed">WhatsApp is not installed</string>
     <string name="no_messaging_app">No messaging app installed</string>
     <string name="share_film_message">I recommend the film: %s</string>
+
+    <!-- Login and Register -->
+    <string name="login_title">Login</string>
+    <string name="register_title">User Registration</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">LOGIN</string>
+    <string name="register_button">REGISTER</string>
+    <string name="user_data">User Data:</string>
+    <string name="username_label">Username</string>
+    <string name="password_label">Password</string>
+    <string name="repeat_password_hint">Enter a new password</string>
+    <string name="invalid_credentials">Invalid credentials</string>
+    <string name="user_registered">User registered successfully</string>
+    <string name="user_exists">User already exists</string>
+    <string name="fill_all_login_fields">Please fill in all fields</string>
+    <string name="passwords_dont_match">Passwords do not match</string>
+    <string name="save_user">Save user</string>
 </resources>

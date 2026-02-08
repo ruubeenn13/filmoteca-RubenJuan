@@ -18,4 +18,10 @@
 
     <color name="divider">#BDBDBD</color>
     <color name="background">#FFFFFF</color>
+
+    <!-- Colores para Login -->
+    <color name="login_header">#D84315</color>
+    <color name="login_button">#D84315</color>
+    <color name="register_header">#D84315</color>
+    <color name="register_button">#FF6F00</color>
 </resources>
