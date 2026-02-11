@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         dbHelper = new DatabaseHelper(this);
+        dbHelper.getWritableDatabase().close();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 

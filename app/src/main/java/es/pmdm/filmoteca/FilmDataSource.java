@@ -1,6 +1,7 @@
 package es.pmdm.filmoteca;
 
 import android.content.Context;
+import android.database.Cursor;
 
 import java.util.ArrayList;
 
@@ -14,13 +15,39 @@ public class FilmDataSource {
 
         dbHelper = new DatabaseHelper(context);
 
-        films = dbHelper.getAllFilms();
+        loadFilmsFromDatabase();
 
         if (dbHelper.isDatabaseEmpty()) {
             loadSampleData();
+            loadFilmsFromDatabase();
         }
 
         initialized = true;
+    }
+
+    private static void loadFilmsFromDatabase() {
+        films.clear();
+        Cursor cursor = dbHelper.getAllFilms();
+
+        if (cursor.moveToFirst()) {
+            do {
+                Film film = new Film();
+                film.setId(cursor.getLong(cursor.getColumnIndexOrThrow("id")));
+                film.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("title")));
+                film.setDirector(cursor.getString(cursor.getColumnIndexOrThrow("director")));
+                film.setYear(cursor.getInt(cursor.getColumnIndexOrThrow("year")));
+                film.setImbdURL(cursor.getString(cursor.getColumnIndexOrThrow("imdb_url")));
+                film.setFormat(cursor.getInt(cursor.getColumnIndexOrThrow("format")));
+                film.setGenre(cursor.getInt(cursor.getColumnIndexOrThrow("genre")));
+                film.setComments(cursor.getString(cursor.getColumnIndexOrThrow("comments")));
+                film.setImageResId(cursor.getInt(cursor.getColumnIndexOrThrow("image_res_id")));
+                film.setFavorite(cursor.getInt(cursor.getColumnIndexOrThrow("is_favorite")) == 1);
+
+                films.add(film);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
     }
 
     private static void loadSampleData() {
@@ -34,9 +61,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_SCIFI);
         f.setImbdURL("http://www.imdb.com/title/tt0816692");
         f.setYear(2014);
-        long id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // Back to the Future
         f = new Film();
@@ -48,9 +73,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_SCIFI);
         f.setImbdURL("http://www.imdb.com/title/tt0088763");
         f.setYear(1985);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // The Shawshank Redemption
         f = new Film();
@@ -62,9 +85,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_DRAMA);
         f.setImbdURL("http://www.imdb.com/title/tt0111161");
         f.setYear(1994);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // The Dark Knight
         f = new Film();
@@ -76,9 +97,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_ACTION);
         f.setImbdURL("http://www.imdb.com/title/tt0468569");
         f.setYear(2008);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // Forrest Gump
         f = new Film();
@@ -90,9 +109,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_DRAMA);
         f.setImbdURL("http://www.imdb.com/title/tt0109830");
         f.setYear(1994);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // Inception
         f = new Film();
@@ -104,9 +121,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_SCIFI);
         f.setImbdURL("http://www.imdb.com/title/tt1375666");
         f.setYear(2010);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // The Matrix
         f = new Film();
@@ -118,9 +133,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_SCIFI);
         f.setImbdURL("http://www.imdb.com/title/tt0133093");
         f.setYear(1999);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // Gladiator
         f = new Film();
@@ -132,9 +145,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_ACTION);
         f.setImbdURL("http://www.imdb.com/title/tt0172495");
         f.setYear(2000);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // The Silence of the Lambs
         f = new Film();
@@ -146,9 +157,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_HORROR);
         f.setImbdURL("http://www.imdb.com/title/tt0102926");
         f.setYear(1991);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // Pulp Fiction
         f = new Film();
@@ -160,9 +169,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_DRAMA);
         f.setImbdURL("http://www.imdb.com/title/tt0110912");
         f.setYear(1994);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // The Hangover
         f = new Film();
@@ -174,9 +181,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_COMEDY);
         f.setImbdURL("http://www.imdb.com/title/tt1119646");
         f.setYear(2009);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // The Avengers
         f = new Film();
@@ -188,9 +193,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_ACTION);
         f.setImbdURL("http://www.imdb.com/title/tt0848228");
         f.setYear(2012);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // Superbad
         f = new Film();
@@ -202,9 +205,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_COMEDY);
         f.setImbdURL("http://www.imdb.com/title/tt0829482");
         f.setYear(2007);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // The Shining
         f = new Film();
@@ -216,9 +217,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_HORROR);
         f.setImbdURL("http://www.imdb.com/title/tt0081505");
         f.setYear(1980);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
 
         // Blade Runner
         f = new Film();
@@ -230,9 +229,7 @@ public class FilmDataSource {
         f.setGenre(Film.GENRE_SCIFI);
         f.setImbdURL("http://www.imdb.com/title/tt0083658");
         f.setYear(1982);
-        id = dbHelper.insertFilm(f);
-        f.setId(id);
-        films.add(f);
+        dbHelper.insertFilm(f);
     }
 
     public static void addFilm(Film film) {

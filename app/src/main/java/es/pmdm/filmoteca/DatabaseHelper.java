@@ -6,16 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
-
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "filmoteca.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
-    // Tabla films
     private static final String TABLE_FILMS = "films";
-    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_FILM_ID = "id";
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_DIRECTOR = "director";
     private static final String COLUMN_YEAR = "year";
@@ -26,7 +23,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_IMAGE_RES_ID = "image_res_id";
     private static final String COLUMN_IS_FAVORITE = "is_favorite";
 
-    // Tabla users
     private static final String TABLE_USERS = "users";
     private static final String COLUMN_USER_ID = "id";
     private static final String COLUMN_USERNAME = "username";
@@ -39,7 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createFilmsTable = "CREATE TABLE " + TABLE_FILMS + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_FILM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_TITLE + " TEXT, " +
                 COLUMN_DIRECTOR + " TEXT, " +
                 COLUMN_YEAR + " INTEGER, " +
@@ -60,15 +56,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 2) {
-            String createUsersTable = "CREATE TABLE IF NOT EXISTS " + TABLE_USERS + " (" +
-                    COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_USERNAME + " TEXT UNIQUE, " +
-                    COLUMN_PASSWORD + " TEXT)";
-            db.execSQL(createUsersTable);
-        }
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FILMS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        onCreate(db);
     }
-
 
     public long insertFilm(Film film) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -85,9 +76,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_IS_FAVORITE, film.isFavorite() ? 1 : 0);
 
         long id = db.insert(TABLE_FILMS, null, values);
-        film.setId(id);
         db.close();
         return id;
+    }
+
+    public Cursor getAllFilms() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_FILMS + " ORDER BY " + COLUMN_FILM_ID + " ASC", null);
+    }
+
+    public Cursor getFilmById(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_FILMS, null, COLUMN_FILM_ID + " = ?",
+                new String[]{String.valueOf(id)}, null, null, null);
     }
 
     public int updateFilm(Film film) {
@@ -104,45 +105,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_IMAGE_RES_ID, film.getImageResId());
         values.put(COLUMN_IS_FAVORITE, film.isFavorite() ? 1 : 0);
 
-        int rowsAffected = db.update(TABLE_FILMS, values, COLUMN_ID + " = ?",
+        int rowsAffected = db.update(TABLE_FILMS, values, COLUMN_FILM_ID + " = ?",
                 new String[]{String.valueOf(film.getId())});
         db.close();
         return rowsAffected;
     }
 
-    public void deleteFilm(long filmId) {
+    public int deleteFilm(long filmId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_FILMS, COLUMN_ID + " = ?", new String[]{String.valueOf(filmId)});
+        int rowsDeleted = db.delete(TABLE_FILMS, COLUMN_FILM_ID + " = ?",
+                new String[]{String.valueOf(filmId)});
         db.close();
-    }
-
-    public ArrayList<Film> getAllFilms() {
-        ArrayList<Film> filmList = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(TABLE_FILMS, null, null, null, null, null, COLUMN_ID + " ASC");
-
-        if (cursor.moveToFirst()) {
-            do {
-                Film film = new Film();
-                film.setId(cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_ID)));
-                film.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)));
-                film.setDirector(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIRECTOR)));
-                film.setYear(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_YEAR)));
-                film.setImbdURL(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMDB_URL)));
-                film.setFormat(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_FORMAT)));
-                film.setGenre(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_GENRE)));
-                film.setComments(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COMMENTS)));
-                film.setImageResId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_RES_ID)));
-                film.setFavorite(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IS_FAVORITE)) == 1);
-
-                filmList.add(film);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        db.close();
-        return filmList;
+        return rowsDeleted;
     }
 
     public boolean isDatabaseEmpty() {
@@ -154,7 +128,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return count == 0;
     }
-
 
     public boolean registerUser(String username, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
