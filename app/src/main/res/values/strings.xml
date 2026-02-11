@@ -142,4 +142,18 @@
     <string name="settings_enable_register_summary">Permite registrar nuevos usuarios desde la pantalla de login</string>
     <string name="enable_register">Registro habilitado</string>
     <string name="disable_register">Registro deshabilitado</string>
+
+    <!-- Multimedia -->
+    <string name="menu_more_info">Más info</string>
+    <string name="more_activity_title">Más Información</string>
+    <string name="video_playing">Reproduciendo...</string>
+    <string name="video_paused">Pausado</string>
+    <string name="video_stopped">Video reseteado</string>
+    <string name="video_finished">Video terminado</string>
+    <string name="video_already_playing">Ya se está reproduciendo</string>
+    <string name="video_not_playing">No se está reproduciendo</string>
+    <string name="video_error_reset">Error al resetear video</string>
+    <string name="btn_play">Play</string>
+    <string name="btn_pause">Pause</string>
+    <string name="btn_stop">Stop</string>
 </resources>

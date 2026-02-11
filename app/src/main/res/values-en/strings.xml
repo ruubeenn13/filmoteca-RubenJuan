@@ -142,4 +142,18 @@
     <string name="settings_enable_register_summary">Allow new user registration from login screen</string>
     <string name="enable_register">Register enabled</string>
     <string name="disable_register">Register disabled</string>
+
+    <!-- Multimedia -->
+    <string name="menu_more_info">More info</string>
+    <string name="more_activity_title">More Information</string>
+    <string name="video_playing">Playing...</string>
+    <string name="video_paused">Paused</string>
+    <string name="video_stopped">Video reset</string>
+    <string name="video_finished">Video finished</string>
+    <string name="video_already_playing">Already playing</string>
+    <string name="video_not_playing">Not playing</string>
+    <string name="video_error_reset">Error resetting video</string>
+    <string name="btn_play">Play</string>
+    <string name="btn_pause">Pause</string>
+    <string name="btn_stop">Stop</string>
 </resources>

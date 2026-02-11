@@ -92,6 +92,9 @@ public class FilmListActivity extends AppCompatActivity {
         } else if (id == R.id.menu_settings) {
             openSettingsActivity();
             return true;
+        } else if (id == R.id.menu_more_info) {
+            openMoreActivity();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -366,6 +369,11 @@ public class FilmListActivity extends AppCompatActivity {
 
     private void openSettingsActivity() {
         Intent intent = new Intent(FilmListActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    private void openMoreActivity() {
+        Intent intent = new Intent(FilmListActivity.this, MoreActivity.class);
         startActivity(intent);
     }
 }
