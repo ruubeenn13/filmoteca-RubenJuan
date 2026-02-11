@@ -12,4 +12,9 @@
         android:title="@string/menu_add_film"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/menu_settings"
+        android:title="@string/menu_settings"
+        app:showAsAction="never" />
+
 </menu>

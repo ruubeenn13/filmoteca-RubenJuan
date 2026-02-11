@@ -133,4 +133,13 @@
     <string name="fill_all_login_fields">Please fill in all fields</string>
     <string name="passwords_dont_match">Passwords do not match</string>
     <string name="save_user">Save user</string>
+
+    <!-- Preferences -->
+    <string name="menu_settings">Settings</string>
+    <string name="settings_title">Preferences</string>
+    <string name="settings_category_general">General</string>
+    <string name="settings_enable_register_title">User registration enabled</string>
+    <string name="settings_enable_register_summary">Allow new user registration from login screen</string>
+    <string name="enable_register">Register enabled</string>
+    <string name="disable_register">Register disabled</string>
 </resources>

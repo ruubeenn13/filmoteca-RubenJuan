@@ -89,6 +89,9 @@ public class FilmListActivity extends AppCompatActivity {
         } else if (id == R.id.menu_filter_favorites) {
             toggleFavoritesFilter();
             return true;
+        } else if (id == R.id.menu_settings) {
+            openSettingsActivity();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -359,5 +362,10 @@ public class FilmListActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         }
+    }
+
+    private void openSettingsActivity() {
+        Intent intent = new Intent(FilmListActivity.this, SettingsActivity.class);
+        startActivity(intent);
     }
 }
